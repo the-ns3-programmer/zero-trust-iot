@@ -1,3 +1,22 @@
+//zt-dynamic-trust-scorer.cc
+
+/*
+Authors:Muthu Venkatesh M,Dr Subbulakshmi T,Arun Santhosh R A
+Github id:muthuvenkatesh-24
+VIT-Chennai
+*/
+
+
+/*
+The function does the following:
+• Maintains a trust score (0–100) per session (src → dst)
+• Learns a baseline packet rate using a sliding time window
+• Detects trust violations when deviation exceeds 1.5× baseline
+• Applies exponential penalty for consecutive violations
+• Rewards normal behaviour with gradual recovery
+*/
+
+
 #include "zt-dynamic-trust-scorer.h"
 #include <sstream>
 #include <cmath>

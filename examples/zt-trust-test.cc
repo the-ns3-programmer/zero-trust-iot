@@ -1,3 +1,27 @@
+//zt-trust-test.cc
+
+/*
+Authors:Muthu Venkatesh M,Dr Subbulakshmi T,Arun Santhosh R A
+Github id:muthuvenkatesh-24
+VIT-Chennai
+*/
+
+
+/*
+
+The test does the following:
+
+• Checks whether the function maintains a trust score (0–100) per session (src → dst)
+• Learns a baseline packet rate using a sliding time window
+• Detects trust violations when deviation exceeds 1.5× baseline
+• Checks with regard to different types of attacks(Normal Behaviour , Violation Burst)
+• Applies exponential penalty for consecutive violations
+• Rewards normal behaviour with gradual recovery
+• Blocks the session and rejects the packets if trust score is below the threshold
+
+*/
+
+
 #include "ns3/core-module.h"
 #include "ns3/network-module.h"
 #include "ns3/zero-trust-iot-module.h"
