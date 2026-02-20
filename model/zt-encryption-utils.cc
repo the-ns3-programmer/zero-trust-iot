@@ -1,4 +1,3 @@
-// zt-encryption-utils.cc
 
 #include "ns3/zt-encryption-utils.h"
 #include <cryptopp/hex.h>

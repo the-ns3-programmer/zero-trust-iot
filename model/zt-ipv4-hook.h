@@ -1,3 +1,23 @@
+/*
+
+Authors:Rahul S,Dr.Subbulakshmi T,Arun Santhosh R A
+Github ID:Rahul-252506
+VIT CHENNAI,INDIA
+*/
+/*
+ This header defines the ZtIpv4Hook class used for
+ integrating Zero Trust policy enforcement into
+ the IPv4 transmission layer.
+
+ - Inherits from ns3::Object.
+ - Attaches to a node’s IPv4 stack.
+ - Intercepts outgoing (Tx) packets.
+ - Delegates access control decisions to the
+   ZtPolicyEngine before packet transmission.
+
+ This enables real-time micro-segmentation
+ enforcement at the network layer.
+*/
 #ifndef ZT_IPV4_HOOK_H
 #define ZT_IPV4_HOOK_H
 

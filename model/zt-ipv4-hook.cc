@@ -1,3 +1,24 @@
+/*
+
+Authors:Rahul S,Dr.Subbulakshmi T,Arun Santhosh R A
+Github ID:Rahul-252506
+VIT CHENNAI,INDIA
+*/
+/*
+ This module implements an IPv4 hook for enforcing
+ Zero Trust micro-segmentation policies at the IP layer.
+
+ - Attaches to a node’s IPv4 stack and intercepts
+   outgoing (Tx) packets.
+
+ - Uses the ZtPolicyEngine to evaluate communication
+   between source and destination nodes.
+
+ - Logs ALLOW or DENY decisions based on policy rules.
+
+ This enables runtime policy enforcement directly
+ at the network transmission layer.
+*/
 #include "zt-ipv4-hook.h"
 #include "zt-policy-engine.h"
 #include "zt-identity-registry.h"

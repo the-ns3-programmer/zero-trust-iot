@@ -1,4 +1,4 @@
-// zt-encryption-utils.h
+
 #ifndef ZT_ENCRYPTION_UTILS_H
 #define ZT_ENCRYPTION_UTILS_H
 

@@ -1,3 +1,29 @@
+/*
+
+Authors:Rahul S,Dr.Subbulakshmi T,Arun Santhosh R A
+Github ID:Rahul-252506
+VIT CHENNAI,INDIA
+*/
+/*
+ This module implements a singleton Identity Registry used
+ to manage node identities in the Zero Trust architecture.
+
+ - GetInstance():
+   Provides a single global instance of the registry.
+
+ - RegisterNode():
+   Registers a node with its role and generates a SHA-256
+   identity hash based on node ID and role.
+
+ - GetIdentityHash():
+   Retrieves the stored identity hash for a node.
+
+ - GetRole():
+   Retrieves the assigned role of a node.
+
+ This enables secure identity tracking and role-based
+ validation within the network.
+*/
 #include "zt-identity-registry.h"
 #include "zt-hash-utils.h"
 

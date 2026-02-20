@@ -1,3 +1,25 @@
+/*
+
+Authors:Rahul S,Dr.Subbulakshmi T,Arun Santhosh R A
+Github ID:Rahul-252506
+VIT CHENNAI,INDIA
+*/
+/*
+ This header defines the IdentityRegistry class used for
+ managing node identities in a Zero Trust network.
+
+ - Implements a singleton pattern to ensure a single
+   centralized identity registry.
+
+ - Stores mapping of node ID to:
+     (assigned role, SHA-256 identity hash).
+
+ - Provides functions to register nodes and retrieve
+   their role or identity hash.
+
+ This supports secure identity verification and
+ role-based access enforcement.
+*/
 #ifndef IDENTITY_REGISTRY_H
 #define IDENTITY_REGISTRY_H
 

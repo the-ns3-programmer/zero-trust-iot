@@ -1,4 +1,4 @@
-// zt-tls-handshake.cc
+
 
 #include "zt-tls-handshake.h"
 #include "ns3/log.h"
@@ -12,7 +12,7 @@ namespace ns3 {
 
 NS_LOG_COMPONENT_DEFINE("ZtTlsHandshake");
 
-/**
+/*
  * \brief Get the ns-3 TypeId for ZtTlsHandshake
  * \return The TypeId
  */
