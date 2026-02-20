@@ -37,6 +37,7 @@ if(ENABLE_CRYPTOPP)
       model/zt-policy-engine.cc
       model/zt-logger.cc
       model/zt-tls-handshake.cc
+      model/zt-dynamic-trust-scorer.cc
   )
   set(crypto_headers
       model/zt-certificate.h
@@ -44,6 +45,7 @@ if(ENABLE_CRYPTOPP)
       model/zt-policy-engine.h
       model/zt-logger.h
       model/zt-tls-handshake.h
+      model/zt-dynamic-trust-scorer.h
   )
   set(crypto_libraries ${CRYPTOPP_LIBRARIES})
 
@@ -58,4 +60,8 @@ if(ENABLE_CRYPTOPP)
       ${libwifi}
       ${crypto_libraries}
   )
+  
+
+
 endif()
+
