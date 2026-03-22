@@ -1,8 +1,5 @@
 # Default: Crypto++ disabled
-set(ENABLE_CRYPTOPP
-    False
-    CACHE INTERNAL ""
-)
+set(ENABLE_CRYPTOPP False CACHE INTERNAL "")
 
 # Allow user to request Crypto++ explicitly
 option(NS3_CRYPTOPP "Enable Crypto++ support in zero-trust-iot" OFF)
@@ -25,11 +22,24 @@ else()
   message(STATUS "Crypto++ support explicitly disabled (NS3_CRYPTOPP=OFF)")
 endif()
 
-# Sources/headers
-set(crypto_sources)
-set(crypto_headers)
-set(crypto_libraries)
+# Sources and headers (always the same)
+set(zt_sources
+    model/zt-certificate.cc
+    model/zt-encryption-utils.cc
+    model/zt-policy-engine.cc
+    model/zt-logger.cc
+    model/zt-tls-handshake.cc
+    model/zt-context-drift-validator.cc
+)
 
+set(zt_headers
+    model/zt-certificate.h
+    model/zt-encryption-utils.h
+    model/zt-policy-engine.h
+    model/zt-logger.h
+    model/zt-tls-handshake.h
+    model/zt-context-drift-validator.h
+)
 if(ENABLE_CRYPTOPP)
   set(crypto_sources
       model/zt-certificate.cc
@@ -56,8 +66,12 @@ if(ENABLE_CRYPTOPP)
   )
   set(crypto_libraries ${CRYPTOPP_LIBRARIES})
 
+# Build library with conditional linking
+if(ENABLE_CRYPTOPP)
   build_lib(
     LIBNAME zero-trust-iot
+    SOURCE_FILES ${zt_sources}
+    HEADER_FILES ${zt_headers}
     SOURCE_FILES ${crypto_sources}
     
     HEADER_FILES ${crypto_headers}
@@ -66,7 +80,15 @@ if(ENABLE_CRYPTOPP)
       ${libnetwork}
       ${libinternet}
       ${libwifi}
-      ${crypto_libraries}
+      cryptopp
+  )
+
+else()
+  build_lib(
+    LIBNAME zero-trust-iot
+    SOURCE_FILES ${zt_sources}
+    HEADER_FILES ${zt_headers}
+    LIBRARIES_TO_LINK ${libcore} ${libnetwork} ${libinternet} ${libwifi}
   )
   
 
