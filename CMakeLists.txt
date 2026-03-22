@@ -41,6 +41,7 @@ if(ENABLE_CRYPTOPP)
       model/zt-identity-registry.cc
       model/zt-ipv4-hook.cc
       
+      model/zt-dynamic-trust-scorer.cc
   )
   set(crypto_headers
       model/zt-certificate.h
@@ -51,6 +52,7 @@ if(ENABLE_CRYPTOPP)
       model/zt-hash-utils.h
       model/zt-identity-registry.h
       model/zt-ipv4-hook.h
+      model/zt-dynamic-trust-scorer.h
   )
   set(crypto_libraries ${CRYPTOPP_LIBRARIES})
 
@@ -66,4 +68,8 @@ if(ENABLE_CRYPTOPP)
       ${libwifi}
       ${crypto_libraries}
   )
+  
+
+
 endif()
+
