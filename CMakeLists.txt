@@ -37,6 +37,10 @@ if(ENABLE_CRYPTOPP)
       model/zt-policy-engine.cc
       model/zt-logger.cc
       model/zt-tls-handshake.cc
+      model/zt-hash-utils.cc
+      model/zt-identity-registry.cc
+      model/zt-ipv4-hook.cc
+      
       model/zt-dynamic-trust-scorer.cc
   )
   set(crypto_headers
@@ -45,6 +49,9 @@ if(ENABLE_CRYPTOPP)
       model/zt-policy-engine.h
       model/zt-logger.h
       model/zt-tls-handshake.h
+      model/zt-hash-utils.h
+      model/zt-identity-registry.h
+      model/zt-ipv4-hook.h
       model/zt-dynamic-trust-scorer.h
   )
   set(crypto_libraries ${CRYPTOPP_LIBRARIES})
@@ -52,6 +59,7 @@ if(ENABLE_CRYPTOPP)
   build_lib(
     LIBNAME zero-trust-iot
     SOURCE_FILES ${crypto_sources}
+    
     HEADER_FILES ${crypto_headers}
     LIBRARIES_TO_LINK
       ${libcore}
