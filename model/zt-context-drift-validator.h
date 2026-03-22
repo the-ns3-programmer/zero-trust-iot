@@ -1,3 +1,22 @@
+// zt-context-drift-validator.h
+
+/*
+Authors: Rahul R, Dr. Subbulakshmi T, Arun Santhosh R A
+Github id: Rahul2671
+VIT Chennai, India
+*/
+
+
+/* 
+The below code does the following:
+Even after a node is authenticated and authorized successfully,
+its access should NOT remain permanent. The node's operational
+context is continuously monitored. If the context drifts too much
+from the baseline captured during handshake, trust is gradually
+reduced and access is revoked.
+*/
+
+
 #ifndef ZT_CONTEXT_DRIFT_VALIDATOR_H
 #define ZT_CONTEXT_DRIFT_VALIDATOR_H
 
@@ -11,7 +30,7 @@ namespace ns3 {
 
 /**
  * ============================================================
- * // Healthcare IoT Zero Trust Context Drift Validator
+ * // Zero Trust Context Drift Validator
  * ============================================================
  */
 
@@ -21,7 +40,7 @@ namespace ns3 {
  * ============================================================
  */
  
- // Stores clinical baseline and runtime context of medical devices
+ // Stores baseline and runtime context of nodes
 
 class ContextAttributeStore
 {
@@ -38,9 +57,9 @@ public:
                             uint32_t proximity);
 
   double CalculateDrift(uint32_t nodeId,
-                        double wt,
-                        double wc,
-                        double wp);
+                      double wt,
+                      double wc,
+                      double wp) const;
 
   void UpdateTrust(uint32_t nodeId,
                    double drift,
@@ -68,7 +87,7 @@ private:
  * ============================================================
  */
  
- // Periodically evaluates medical device trust and revokes compromised nodes
+ // Periodically evaluates node trust and revokes low-trust compromised nodes
 
 class PeriodicRevalidator
 {
@@ -91,15 +110,15 @@ private:
 
   ZtPolicyEngine* m_policy;
   ContextAttributeStore* m_store;
+  // Non-owning pointers (lifetime managed externally)
 
   std::set<uint32_t> activeNodes;
 
-  double WT;
-  double WC;
-  double WP;
-
-  double LAMBDA;
-  double TRUST_THRESHOLD;
+  double WT = 0.0;
+  double WC = 0.0;
+  double WP = 0.0;
+  double LAMBDA = 0.0;
+  double TRUST_THRESHOLD = 0.0;
 };
 
 } // namespace ns3

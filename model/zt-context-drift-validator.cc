@@ -1,51 +1,20 @@
 // zt-context-drift-validator.cc
-//
-// This module implements Context-Drift–Based Continuous Authorization
-// for a Zero Trust IoT Network (ZTN).
-//
-// Key idea:
-// ---------
-// Even after a node is authenticated and authorized successfully,
-// its access should NOT remain permanent. The node's operational
-// context is continuously monitored. If the context drifts too much
-// from the baseline captured during handshake, trust is gradually
-// reduced and access is revoked.
-//
-// This file is intentionally verbose and heavily commented
-// to make the design and logic self-explanatory for reviewers,
-// seniors, and future contributors.
 
-//
-// Healthcare IoT Context Drift Validator
-//
-// This module implements Continuous Zero-Trust Authorization
-// for medical devices such as X-ray scanners, CT machines,
-// and bedside patient monitoring systems.
-//
-// PROBLEM:
-// --------
-// Existing hospital IoT systems perform only one-time authentication.
-// Once authenticated, devices can transmit sensitive medical data
-// indefinitely even if their operational context changes.
-//
-// SOLUTION:
-// ---------
-// This system continuously evaluates device context using:
-//
-// 1. Time deviation (unauthorized operating hours)
-// 2. Network congestion (possible attack or overload)
-// 3. Physical proximity (device relocation)
-//
-// Mathematical Model:
-//
-// Drift D = wt*|Tcur − Tbase| + wc*|Ccur − Cbase| + wp*|Pcur − Pbase|
-//
-// Trust = Trust × exp(−λD)
-//
-// If Trust < Threshold → Device access revoked.
-//
-// This enables real-time revocation of compromised medical devices.
-//
+/*
+Authors: Rahul R, Dr. Subbulakshmi T, Arun Santhosh R A
+Github id: Rahul2671
+VIT Chennai, India
+*/
+
+
+/* 
+The below code does the following:
+Even after a node is authenticated and authorized successfully,
+its access should NOT remain permanent. The node's operational
+context is continuously monitored. If the context drifts too much
+from the baseline captured during handshake, trust is gradually
+reduced and access is revoked.
+*/
 
 
 #include "zt-context-drift-validator.h"
@@ -62,14 +31,14 @@ namespace ns3 {
  * ============================================================
  */
  
- // Baseline clinical operating context captured during device onboarding
+ // Baseline operating context captured during node onboarding
 
 void
 ContextAttributeStore::StoreBaseline(uint32_t nodeId,
                                      double timeOfDay,
                                      double congestion,
                                      uint32_t proximity)
-// Baseline captured when medical device is first authorized
+// Baseline captured when node is first authorized
 
 {
   baselineTime[nodeId] = timeOfDay;
@@ -99,14 +68,13 @@ ContextAttributeStore::CalculateDrift(uint32_t nodeId,
                                       double wt,
                                       double wc,
                                       double wp)
-  // Computes clinical context drift of medical IoT device
 
 {
-  // Time deviation: unauthorized usage window
+  // Time deviation
   double dt = std::abs(currentTime[nodeId] - baselineTime[nodeId]);
-  // Network deviation: congestion anomaly
+  // Network deviation
   double dc = std::abs(currentCongestion[nodeId] - baselineCongestion[nodeId]);
-  // Physical deviation: device movement
+  // Location deviation
   double dp = std::abs((double)currentProximity[nodeId] -
                         (double)baselineProximity[nodeId]);
 
@@ -117,8 +85,6 @@ void
 ContextAttributeStore::UpdateTrust(uint32_t nodeId,
                                    double drift,
                                    double lambda)
-    // Exponential decay of medical device trust score
-
 {
   trustScore[nodeId] *= std::exp(-lambda * drift);
 
@@ -180,16 +146,16 @@ PeriodicRevalidator::Revalidate()
 
     double trust = m_store->GetTrust(nodeId);
 
-    std::cout << "[Healthcare-ZT] MedicalDevice "
+    std::cout << "[ZeroTrust] Node"
  << nodeId
               << " Drift=" << drift
               << " Trust=" << trust << std::endl;
 
     if (trust < TRUST_THRESHOLD)
-    {
+
       m_policy->Revoke(nodeId);
 
-      std::cout << "[Healthcare-ZT] MedicalDevice "
+      std::cout << "[ZeroTrust] Node "
  << nodeId
                 << " revoked due to low trust" << std::endl;
     }
