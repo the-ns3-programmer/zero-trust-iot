@@ -1,11 +1,15 @@
-// === zt-policy-engine.h ===
 #ifndef ZT_POLICY_ENGINE_H
 #define ZT_POLICY_ENGINE_H
 
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
+#include <map>
+
 #include <ns3/object.h>
+#include <ns3/node.h>
+
 #include <cryptopp/rsa.h>
 
 using namespace CryptoPP;
@@ -14,69 +18,94 @@ namespace ns3 {
 
 /**
  * \ingroup zerotrust
- * \brief Implements policy enforcement for Zero Trust security in NS-3 simulations.
- *
- * The ZtPolicyEngine class is responsible for enforcing identity-based access control,
- * managing certificate validation, revocations, and dynamic role-based authorization.
+ * \brief Zero Trust Policy Engine with:
+ * - Identity-based authorization
+ * - Certificate validation
+ * - Revocation support
+ * - Micro-segmentation (custom extension)
  */
-class ZtPolicyEngine : public Object {
+class ZtPolicyEngine : public Object
+{
 public:
-  /**
-   * \brief Get the TypeId for ZtPolicyEngine.
-   * \return TypeId object used for NS-3 runtime type identification.
-   */
   static TypeId GetTypeId();
 
-  /**
-   * \brief Add a node to the authorized list with a specified role.
-   * \param nodeId The node ID to authorize.
-   * \param role The role assigned to the node (e.g., "sensor", "gateway").
-   */
+  ZtPolicyEngine();
+  virtual ~ZtPolicyEngine();
+
+  /* =====================================================
+     EXISTING FUNCTIONALITY (DO NOT MODIFY)
+  ===================================================== */
+
   void AddAuthorized(uint32_t nodeId, const std::string& role);
 
-  /**
-   * \brief Check if a node is authorized for a given role.
-   * \param nodeId The ID of the requesting node.
-   * \param role The required role for access.
-   * \return True if authorized, false otherwise.
-   */
   bool Authorize(uint32_t nodeId, const std::string& role);
 
-  /**
-   * \brief Set the Certificate Authority's public key for verifying digital signatures.
-   * \param pub The RSA public key of the CA.
-   */
   void SetCaPublicKey(RSA::PublicKey pub);
 
-  /**
-   * \brief Add a node ID to the revocation list.
-   * \param nodeId The ID of the node to revoke.
-   */
   void Revoke(uint32_t nodeId);
 
-  /**
-   * \brief Perform certificate-based authorization for a node.
-   *
-   * This checks:
-   * - If the node is revoked
-   * - If the certificate signature is valid
-   * - If the certificate identity matches the request
-   * - If the certificate is not expired
-   *
-   * \param nodeId The ID of the requesting node.
-   * \param role The required role for access.
-   * \param certStr The certificate string (including fields and base64-encoded signature).
-   * \return True if certificate is valid and authorized, false otherwise.
-   */
-  bool AuthorizeWithCert(uint32_t nodeId, const std::string& role, const std::string& certStr);
+  bool AuthorizeWithCert(uint32_t nodeId,
+                         const std::string& role,
+                         const std::string& certStr);
+
+  /* =====================================================
+     NEW: MICRO-SEGMENTATION EXTENSION
+  ===================================================== */
+
+  enum RuleEffect
+  {
+    ALLOW = 0,
+    DENY  = 1
+  };
+
+  struct RolePolicyRule
+  {
+    std::string srcRole;
+    std::string dstRole;
+    std::string action;
+
+    uint32_t startHour;
+    uint32_t endHour;
+
+    uint32_t windowSeconds;
+    uint32_t maxTransfers;
+
+    RuleEffect effect;
+  };
+
+  void AddRolePolicyRule(const RolePolicyRule& rule);
+
+  bool EvaluateMicroSegmentation(
+      Ptr<Node> srcNode,
+      Ptr<Node> dstNode,
+      const std::string& action);
+
+  uint32_t GetPolicyVersion() const;
+
+  std::string GetPolicyIntegrityHash() const;
 
 private:
-  std::unordered_map<uint32_t, std::string> authTable; ///< Maps node ID to assigned role
-  std::unordered_set<uint32_t> revoke;                 ///< List of revoked node IDs
-  RSA::PublicKey caPublicKey;                          ///< Public key for certificate signature verification
+  /* ================= EXISTING ================= */
+  std::unordered_map<uint32_t, std::string> authTable;
+  std::unordered_set<uint32_t> revoke;
+  RSA::PublicKey caPublicKey;
+
+  /* ================= NEW ================= */
+  bool IsWithinTime(uint32_t startHour,
+                    uint32_t endHour);
+
+  uint32_t GetBehaviorState(uint32_t nodeId,
+                           uint32_t windowSeconds);
+
+private:
+  /* ================= NEW STORAGE ================= */
+  std::vector<RolePolicyRule> m_rules;
+
+  std::map<uint32_t, std::vector<uint64_t>> m_transferHistory;
+
+  uint32_t m_policyVersion;
 };
 
 } // namespace ns3
 
 #endif // ZT_POLICY_ENGINE_H
-

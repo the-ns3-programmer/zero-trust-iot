@@ -40,6 +40,31 @@ set(zt_headers
     model/zt-tls-handshake.h
     model/zt-context-drift-validator.h
 )
+if(ENABLE_CRYPTOPP)
+  set(crypto_sources
+      model/zt-certificate.cc
+      model/zt-encryption-utils.cc
+      model/zt-policy-engine.cc
+      model/zt-logger.cc
+      model/zt-tls-handshake.cc
+      model/zt-hash-utils.cc
+      model/zt-identity-registry.cc
+      model/zt-ipv4-hook.cc
+      
+      model/zt-dynamic-trust-scorer.cc
+  )
+  set(crypto_headers
+      model/zt-certificate.h
+      model/zt-encryption-utils.h
+      model/zt-policy-engine.h
+      model/zt-logger.h
+      model/zt-tls-handshake.h
+      model/zt-hash-utils.h
+      model/zt-identity-registry.h
+      model/zt-ipv4-hook.h
+      model/zt-dynamic-trust-scorer.h
+  )
+  set(crypto_libraries ${CRYPTOPP_LIBRARIES})
 
 # Build library with conditional linking
 if(ENABLE_CRYPTOPP)
@@ -47,6 +72,9 @@ if(ENABLE_CRYPTOPP)
     LIBNAME zero-trust-iot
     SOURCE_FILES ${zt_sources}
     HEADER_FILES ${zt_headers}
+    SOURCE_FILES ${crypto_sources}
+    
+    HEADER_FILES ${crypto_headers}
     LIBRARIES_TO_LINK
       ${libcore}
       ${libnetwork}
@@ -62,5 +90,8 @@ else()
     HEADER_FILES ${zt_headers}
     LIBRARIES_TO_LINK ${libcore} ${libnetwork} ${libinternet} ${libwifi}
   )
+  
+
+
 endif()
 
