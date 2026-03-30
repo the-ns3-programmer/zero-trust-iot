@@ -1,9 +1,21 @@
+/*
+Authors:Rahul S,Dr.Subbulakshmi T,Arun Santhosh R A
+Github ID:Rahul-252506
+VIT CHENNAI,INDIA
+*/
 
+/*The below code does the following:
+
+* Implements role-based micro-segmentation for a camera, analytics server, and maintenance device.
+* Enforces time-bound policies that only allow maintenance updates during specific early morning hours.
+* Applies rate-limiting constraints by blocking traffic once the maximum number of transfers is exceeded.
+* Simulates dynamic enforcement by evaluating real-time access requests against defined security rules.
+* Adheres to Zero Trust principles by defaulting to "DENY" for unauthorized actions like rebooting.
+
+*/
 #include "ns3/core-module.h"
 #include "ns3/network-module.h"
-
-#include "ns3/zt-policy-engine.h"
-#include "ns3/zt-identity-registry.h"
+#include "ns3/zero-trust-iot-module.h"
 
 using namespace ns3;
 
