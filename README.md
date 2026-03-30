@@ -42,7 +42,7 @@ The modules developed within this Zero Trust IoT library for ns-3 work in close 
 
 | Name | Affiliation | Contact |
 | :--- | :--- | :--- |
-| **Rahul S** | IInd year B.Tech CSE, VIT Chennai | [rahul.s@example.com](mailto:rahulsaravanan3052@gmail.com) |
+| **Rahul S** | IInd year B.Tech CSE, VIT Chennai | [rahulsaravanan3052@gmail.com](mailto:rahulsaravanan3052@gmail.com) |
 | **Muthu Venkatesh M** | IInd year B.Tech CSE, VIT Chennai | [muthuvenkat2426@gmail.com](mailto:muthuvenkat2426@gmail.com) |
 | **Rahul R** | IInd year B.Tech CSE, VIT Chennai | [rahulsubha1983@gmail.com](mailto:rahulsubha1983@gmail.com) |
 
