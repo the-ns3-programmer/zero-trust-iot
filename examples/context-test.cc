@@ -1,8 +1,6 @@
 #include <cstdint>
 #include "ns3/core-module.h"
-#include "ns3/zt-context-drift-validator.h"
-#include "ns3/zt-policy-engine.h"
-#include "ns3/zt-logger.h"
+#include "ns3/zero-trust-iot-module.h"
 
 #include <vector>
 
