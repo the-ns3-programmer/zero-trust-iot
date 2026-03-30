@@ -21,7 +21,7 @@ The modules developed within this Zero Trust IoT library for ns-3 work in close 
 4. Configure ns-3 and build it. Ensure [cryptopp](https://github.com/weidai11/cryptopp) is installed:
 
     ```bash
-    ./ns3 configure --enable-examples --enable-qpp --enable-crypto
+    ./ns3 configure --enable-examples --enable-tests -- -DNS3_CRYPTOPP=ON
     ```
 
     ```bash
