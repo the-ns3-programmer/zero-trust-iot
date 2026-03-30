@@ -1,3 +1,17 @@
+/*
+Authors: Rahul R, Dr. Subbulakshmi T, Arun Santhosh R A
+Github id: Rahul2671
+VIT Chennai, India
+*/
+
+/*The below code does the following:
+* Simulates IoT node behavior by generating deterministic context data (time, congestion, proximity).
+* Establishes baseline profiles for nodes to compare current behavior against normal patterns.
+* Injects progressive drift ranging from perfectly normal (Node 1) to severe anomalies (Node 3).
+* Triggers a "Rare Attack" mid-simulation to test detection of extreme data outliers on Node 4.
+* Periodically revalidates trust using weighted attributes and a threshold to identify compromised nodes.
+*/
+
 #include <cstdint>
 #include "ns3/core-module.h"
 #include "ns3/zero-trust-iot-module.h"
